@@ -38,7 +38,7 @@ class ProductService {
       desc,
     } = data;
 
-    let imgFileName = uuid.v4() + ".jpg";
+    let imgFileName = uuid.v4() + path.extname(img.name); 
     img.mv(path.resolve(__dirname, "..", "static", imgFileName));
 
     let certificateFileName = uuid.v4() + path.extname(certificate.name);
@@ -51,7 +51,7 @@ class ProductService {
       path.resolve(__dirname, "..", "static", presentationFileName)
     );
 
-    const product = await Product.create({
+    const product = await Product.create({ 
       img: imgFileName,
       certificate: certificateFileName,
       presentation: presentationFileName,
@@ -120,7 +120,8 @@ class ProductService {
       specif,
       keep,
     } = data;
-    let imgFileName = uuid.v4() + ".jpg";
+
+    let imgFileName = uuid.v4() + path.extname(img.name); 
     img.mv(path.resolve(__dirname, "..", "static", imgFileName));
 
     let certificateFileName = uuid.v4() + path.extname(certificate.name);
@@ -206,7 +207,7 @@ class ProductService {
       stabil,
       productiv,
     } = data;
-    let imgFileName = uuid.v4() + ".jpg";
+    let imgFileName = uuid.v4() + path.extname(img.name); 
     img.mv(path.resolve(__dirname, "..", "static", imgFileName));
 
     let certificateFileName = uuid.v4() + path.extname(certificate.name);
