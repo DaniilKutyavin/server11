@@ -5,7 +5,7 @@ const path = require('path');
 class NewsService {
     async createNews(data, img) {
         const {title, description} = data;
-        let imgFileName = uuid.v4() + ".jpg";
+        let imgFileName = uuid.v4() + path.extname(img.name); 
         img.mv(path.resolve(__dirname, '..', 'static/news', imgFileName));
 
         const news = await News.create({title,description, img:imgFileName });

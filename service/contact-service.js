@@ -39,7 +39,7 @@ class ContactService {
     async createuser(img, data) {
         const { name, post} = data;
 
-        let imgFileName = uuid.v4() + ".jpg";
+        let imgFileName = uuid.v4() + path.extname(img.name);
         img.mv(path.resolve(__dirname, '..', 'static', imgFileName));
 
         const info = await Contacts_User.create({  name, post, img:imgFileName});

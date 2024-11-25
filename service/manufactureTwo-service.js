@@ -5,7 +5,7 @@ const path = require('path');
 class ManufactureServiceTwo {
     async createManufacturerTwo(data, logo) {
         const {name} = data;
-        let imgFileName = uuid.v4() + ".jpg";
+        let imgFileName = uuid.v4() + path.extname(logo.name); 
         logo.mv(path.resolve(__dirname, '..', 'static', imgFileName));
 
         const manufacture = await ManufacturerTwo.create({name, logo:imgFileName });

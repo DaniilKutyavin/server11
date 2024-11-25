@@ -15,7 +15,7 @@ const app = express()
 app.use(cors({
     credentials: true,
     origin: (origin, callback) => {
-        const allowedOrigins = ['http://asatag.com:3000', 'http://79.174.95.223:3000'];
+        const allowedOrigins = ['http://localhost:3000', 'http://localhost:3000'];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {

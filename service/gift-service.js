@@ -16,7 +16,7 @@ class GiftService {
       priceThree,
     } = data;
 
-    let imgFileName1 = uuid.v4() + ".jpg";
+    let imgFileName1 = uuid.v4() + path.extname(img1.name);
     img1.mv(path.resolve(__dirname, "..", "static", imgFileName1));
 
     let imgFileName2 = uuid.v4() + path.extname(img2.name);

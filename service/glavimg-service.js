@@ -5,7 +5,7 @@ const ApiError = require("../error/ApiError.js");
 
 class GlavImgService {
   async createGlavImg(img) {
-    const imgFileName = uuid.v4() + path.extname(img.name);
+    let imgFileName = uuid.v4() + path.extname(img.name);
     img.mv(path.resolve(__dirname, "..", "static", imgFileName));
 
     const glavImg = await GlavImg.create({ img: imgFileName });
@@ -23,7 +23,7 @@ class GlavImgService {
     }
 
     if (img) {
-      const imgFileName = uuid.v4() + path.extname(img.name);
+      let imgFileName = uuid.v4() + path.extname(img.name);
       img.mv(path.resolve(__dirname, "..", "static", imgFileName));
       glavImg.img = imgFileName;
     }
