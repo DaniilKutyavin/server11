@@ -25,6 +25,7 @@ const Product = sequelize.define("product", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.TEXT, allowNull: false },
   price: { type: DataTypes.INTEGER, allowNull: false },
+  price_two: { type: DataTypes.INTEGER, allowNull: false },
   type: { type: DataTypes.INTEGER, allowNull: false },
   img: { type: DataTypes.STRING, allowNull: true },
   desc_header: { type: DataTypes.TEXT, allowNull: true },
@@ -52,7 +53,7 @@ const Product = sequelize.define("product", {
 
 const Advantage = sequelize.define("advantage", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  text: { type: DataTypes.STRING, allowNull: false },
+  text: { type: DataTypes.TEXT, allowNull: false },
 });
 
 const Form_one = sequelize.define("form_one", {
@@ -71,37 +72,37 @@ const Form_two = sequelize.define("form_two", {
 
 const Desc = sequelize.define("desc", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  title: { type: DataTypes.STRING, allowNull: false },
-  text: { type: DataTypes.STRING, allowNull: false },
+  title: { type: DataTypes.TEXT, allowNull: false },
+  text: { type: DataTypes.TEXT, allowNull: false },
 });
 
 const Specifications = sequelize.define("specifications", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  text: { type: DataTypes.STRING, allowNull: false },
+  text: { type: DataTypes.TEXT, allowNull: false },
 });
 
 const Keeping = sequelize.define("keeping", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  text: { type: DataTypes.STRING, allowNull: false },
+  text: { type: DataTypes.TEXT, allowNull: false },
 });
 
 const Productivity = sequelize.define("productivity", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  text: { type: DataTypes.STRING, allowNull: false },
+  text: { type: DataTypes.TEXT, allowNull: false },
 });
 
 const Stability = sequelize.define("stability", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  text: { type: DataTypes.STRING, allowNull: false },
+  text: { type: DataTypes.TEXT, allowNull: false },
 });
 
 const Order = sequelize.define("order", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   phone: { type: DataTypes.STRING, allowNull: false },
-  fio: { type: DataTypes.STRING, allowNull: false },
-  city: { type: DataTypes.STRING, allowNull: false },
+  fio: { type: DataTypes.TEXT, allowNull: false },
+  city: { type: DataTypes.TEXT, allowNull: false },
   email: { type: DataTypes.STRING, allowNull: false },
-  comment: { type: DataTypes.STRING, allowNull: false },
+  comment: { type: DataTypes.TEXT, allowNull: false },
   giftId: { type: DataTypes.INTEGER, allowNull: true },
   paymentMethod: { type: DataTypes.STRING, allowNull: false },
   status: { type: DataTypes.STRING, defaultValue: "Ожидает подтверждения" },
@@ -149,8 +150,8 @@ const ManufacturerThree = sequelize.define("manufacturerThree", {
 
 const News = sequelize.define("news", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  title: { type: DataTypes.STRING, allowNull: false },
-  description: { type: DataTypes.STRING, allowNull: false },
+  title: { type: DataTypes.TEXT, allowNull: false },
+  description: { type: DataTypes.TEXT, allowNull: false },
   img: { type: DataTypes.STRING, allowNull: false },
 });
 
@@ -169,26 +170,26 @@ const ProductBuy = sequelize.define("product_buy", {
 
 const Infocart = sequelize.define("Info_cart", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  desc: { type: DataTypes.STRING, allowNull: false },
+  desc: { type: DataTypes.TEXT, allowNull: false },
 });
 
 const ProductBuyInfo = sequelize.define("product_buy_info", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING,  allowNull: false },
+  name: { type: DataTypes.TEXT,  allowNull: false },
 });
 
 const Gift = sequelize.define("gift", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  description: { type: DataTypes.STRING, allowNull: false },
-  nameOne: { type: DataTypes.STRING, allowNull: false },
+  description: { type: DataTypes.TEXT, allowNull: false },
+  nameOne: { type: DataTypes.TEXT, allowNull: false },
   imgOne: { type: DataTypes.STRING, allowNull: false },
-  priceOne: { type: DataTypes.STRING, allowNull: false },
-  nameTwo: { type: DataTypes.STRING, allowNull: false },
+  priceOne: { type: DataTypes.TEXT, allowNull: false },
+  nameTwo: { type: DataTypes.TEXT, allowNull: false },
   imgTwo: { type: DataTypes.STRING, allowNull: false },
-  priceTwo: { type: DataTypes.STRING, allowNull: false },
-  nameThree: { type: DataTypes.STRING, allowNull: false },
+  priceTwo: { type: DataTypes.TEXT, allowNull: false },
+  nameThree: { type: DataTypes.TEXT, allowNull: false },
   imgThree: { type: DataTypes.STRING, allowNull: false },
-  priceThree: { type: DataTypes.STRING, allowNull: false },
+  priceThree: { type: DataTypes.TEXT, allowNull: false },
 });
 const OrderGuest = sequelize.define('order_guest', {
   id: {
@@ -242,10 +243,10 @@ const TokenSchema = sequelize.define("token_schema", {
 
 const Delivery = sequelize.define("delivery", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  title: { type: DataTypes.STRING, allowNull: false },
-  title_small: { type: DataTypes.STRING, allowNull: false },
-  description_one: { type: DataTypes.STRING, allowNull: false },
-  description_two: { type: DataTypes.STRING, allowNull: false },
+  title: { type: DataTypes.TEXT, allowNull: false },
+  title_small: { type: DataTypes.TEXT, allowNull: false },
+  description_one: { type: DataTypes.TEXT, allowNull: false },
+  description_two: { type: DataTypes.TEXT, allowNull: false },
   time_start: { type: DataTypes.STRING, allowNull: false },
   time_end: { type: DataTypes.STRING, allowNull: false },
   telephone: { type: DataTypes.STRING, allowNull: false },
@@ -253,8 +254,8 @@ const Delivery = sequelize.define("delivery", {
 
 const Contacts = sequelize.define("contacts", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, allowNull: false },
-  adress: { type: DataTypes.STRING, allowNull: false },
+  name: { type: DataTypes.TEXT, allowNull: false },
+  adress: { type: DataTypes.TEXT, allowNull: false },
   telephone: { type: DataTypes.STRING, allowNull: false },
   email: { type: DataTypes.STRING, allowNull: false },
 });
@@ -269,14 +270,14 @@ const Footer = sequelize.define("аooter", {
 
 const Contacts_User = sequelize.define("contacts_user", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, allowNull: false },
-  post: { type: DataTypes.STRING, allowNull: false },
+  name: { type: DataTypes.TEXT, allowNull: false },
+  post: { type: DataTypes.TEXT, allowNull: false },
   img: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Title_header = sequelize.define("title_header", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  name: { type: DataTypes.STRING, allowNull: false },
+  name: { type: DataTypes.TEXT, allowNull: false },
 });
 
 // Associations

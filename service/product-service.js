@@ -20,6 +20,7 @@ class ProductService {
     const {
       name,
       price,
+      price_two,
       type,
       desc_header,
       description,
@@ -36,20 +37,22 @@ class ProductService {
       packaging,
       adva,
       desc,
-    } = data;
+    } = data; 
 
     let imgFileName = uuid.v4() + path.extname(img.name); 
     img.mv(path.resolve(__dirname, "..", "static", imgFileName));
 
-    let certificateFileName = uuid.v4() + path.extname(certificate.name);
-    certificate.mv(
-      path.resolve(__dirname, "..", "static", certificateFileName)
-    );
+    let certificateFileName = null;
+    if (certificate) {
+      certificateFileName = uuid.v4() + path.extname(certificate.name);
+      certificate.mv(path.resolve(__dirname, "..", "static", certificateFileName));
+    }
 
-    let presentationFileName = uuid.v4() + path.extname(presentation.name);
-    presentation.mv(
-      path.resolve(__dirname, "..", "static", presentationFileName)
-    );
+    let presentationFileName = null;
+    if (presentation) {
+      presentationFileName = uuid.v4() + path.extname(presentation.name);
+      presentation.mv(path.resolve(__dirname, "..", "static", presentationFileName));
+    }
 
     const product = await Product.create({ 
       img: imgFileName,
@@ -57,6 +60,7 @@ class ProductService {
       presentation: presentationFileName,
       name,
       price,
+      price_two,
       type,
       htmlTable,
       desc_header,
@@ -105,6 +109,7 @@ class ProductService {
     const {
       name,
       price,
+      price_two,
       type,
       desc_header,
       description,
@@ -124,15 +129,17 @@ class ProductService {
     let imgFileName = uuid.v4() + path.extname(img.name); 
     img.mv(path.resolve(__dirname, "..", "static", imgFileName));
 
-    let certificateFileName = uuid.v4() + path.extname(certificate.name);
-    certificate.mv(
-      path.resolve(__dirname, "..", "static", certificateFileName)
-    );
+    let certificateFileName = null;
+    if (certificate) {
+      certificateFileName = uuid.v4() + path.extname(certificate.name);
+      certificate.mv(path.resolve(__dirname, "..", "static", certificateFileName));
+    }
 
-    let presentationFileName = uuid.v4() + path.extname(presentation.name);
-    presentation.mv(
-      path.resolve(__dirname, "..", "static", presentationFileName)
-    );
+    let presentationFileName = null;
+    if (presentation) {
+      presentationFileName = uuid.v4() + path.extname(presentation.name);
+      presentation.mv(path.resolve(__dirname, "..", "static", presentationFileName));
+    }
 
     const product = await Product.create({
       img: imgFileName,
@@ -140,6 +147,7 @@ class ProductService {
       presentation: presentationFileName,
       name,
       price,
+      price_two,
       type,
       desc_header,
       description,
@@ -195,6 +203,7 @@ class ProductService {
     const {
       name,
       price,
+      price_two,
       type,
       desc_header,
       description,
@@ -210,15 +219,17 @@ class ProductService {
     let imgFileName = uuid.v4() + path.extname(img.name); 
     img.mv(path.resolve(__dirname, "..", "static", imgFileName));
 
-    let certificateFileName = uuid.v4() + path.extname(certificate.name);
-    certificate.mv(
-      path.resolve(__dirname, "..", "static", certificateFileName)
-    );
+    let certificateFileName = null;
+    if (certificate) {
+      certificateFileName = uuid.v4() + path.extname(certificate.name);
+      certificate.mv(path.resolve(__dirname, "..", "static", certificateFileName));
+    }
 
-    let presentationFileName = uuid.v4() + path.extname(presentation.name);
-    presentation.mv(
-      path.resolve(__dirname, "..", "static", presentationFileName)
-    );
+    let presentationFileName = null;
+    if (presentation) {
+      presentationFileName = uuid.v4() + path.extname(presentation.name);
+      presentation.mv(path.resolve(__dirname, "..", "static", presentationFileName));
+    }
 
     const product = await Product.create({
       img: imgFileName,
@@ -226,6 +237,7 @@ class ProductService {
       presentation: presentationFileName,
       name,
       price,
+      price_two,
       type,
       desc_header,
       description,

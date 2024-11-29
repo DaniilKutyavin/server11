@@ -8,14 +8,14 @@ class ProductController {
       const product = await ProductService.createProductSZR(
         req.body,
         img,
-        certificate,
-        presentation
+        certificate || null,
+        presentation || null
       );
       return res.json(product);
     } catch (e) {
       next(ApiError.badRequest(e.message));
     }
-  }
+  } 
 
   async createUDO(req, res, next) {
     try {
@@ -23,8 +23,8 @@ class ProductController {
       const product = await ProductService.createProductUDO(
         req.body,
         img,
-        certificate,
-        presentation
+        certificate || null,
+        presentation|| null
       );
       return res.json(product);
     } catch (e) {
@@ -38,8 +38,8 @@ class ProductController {
       const product = await ProductService.createProductPOS(
         req.body,
         img,
-        certificate,
-        presentation
+        certificate || null,
+        presentation || null
       );
       return res.json(product);
     } catch (e) {
@@ -84,8 +84,8 @@ class ProductController {
         id,
         req.body,
         img,
-        certificate,
-        presentation
+        certificate || null,
+        presentation || null
       );
       return res.json(updatedProduct);
     } catch (e) {
