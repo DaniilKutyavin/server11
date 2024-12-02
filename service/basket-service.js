@@ -24,12 +24,13 @@ class BasketService {
     if (basketProduct) {
       basketProduct.quantity += quantity;
       await basketProduct.save();
-    } else {
+    } else { 
       await BasketProduct.create({
         basketId: basket.id,
         productId,
         quantity,
         price: product.price,
+        price_two: product.price_two,
       });
     }
   }
