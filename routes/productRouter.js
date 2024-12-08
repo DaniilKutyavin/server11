@@ -16,5 +16,6 @@ router.get(
   "/manufacturer/:manufacturerName",
   ProductController.getManufacturer
 );
+router.get("/tt/counts", ProductController.getAllProductCounts);
 
 module.exports = router;

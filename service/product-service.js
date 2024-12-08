@@ -9,11 +9,13 @@ const {
   ManufacturerOne,
   ManufacturerTwo,
   ManufacturerThree,
+  ProductBuy,
 } = require("../models/models.js");
 const uuid = require("uuid");
 const path = require("path");
 const { Op } = require("sequelize");
 const ApiError = require("../error/ApiError.js");
+const sequelize = require('../db');
 
 class ProductService {
   async createProductSZR(data, img, certificate, presentation) {
@@ -405,6 +407,25 @@ class ProductService {
 
     // If no manufacturer is found, throw an error
     throw ApiError.badRequest("Manufacturer not found");
+  }
+
+  async getProductCountsByTypes() {
+    const counts = await Product.findAll({
+      attributes: [
+        'type',
+        [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
+      ],
+      group: ['type'],
+    });
+  
+    // Count the rows in ProductBuy table
+    const productBuyCounts = await ProductBuy.count(); // This will return the total number of rows in ProductBuy
+  
+    return counts.map((item) => ({
+      type: item.type,
+      count: parseInt(item.dataValues.count, 10),
+      productBuyCount: productBuyCounts || 0,  // Use the count of rows from ProductBuy table
+    }));
   }
 }
 

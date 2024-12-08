@@ -111,6 +111,14 @@ class ProductController {
       return res.status(500).json({ message: "Internal Server Error" });
     }
   }
+  async getAllProductCounts(req, res, next) {
+    try {
+      const counts = await ProductService.getProductCountsByTypes();
+      return res.json(counts);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new ProductController();
