@@ -203,6 +203,7 @@ class OrderService {
         paymentMethod: orderData.paymentMethod,
         promoCode: orderData.promoCode,
         comment: orderData.comment,
+        giftId: orderData.giftId,
       });
   
       return newOrder;

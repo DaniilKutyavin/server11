@@ -234,6 +234,7 @@ const OrderGuest = sequelize.define('order_guest', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  giftId: { type: DataTypes.INTEGER, allowNull: true },
 });
 
 const TokenSchema = sequelize.define("token_schema", {
