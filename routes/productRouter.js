@@ -11,6 +11,7 @@ router.post("/pos", ProductController.createPOS);
 router.get("/:id", ProductController.getOne);
 router.delete("/:id", checkRole("Admin"), ProductController.del);
 router.get("/type/:id", ProductController.getAllByType);
+router.get("/typeadm/:id", ProductController.getAllByTypeAdm);
 router.put("/:id", ProductController.update);
 router.get(
   "/manufacturer/:manufacturerName",

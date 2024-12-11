@@ -76,6 +76,17 @@ class ProductController {
     }
   }
 
+  async getAllByTypeAdm(req, res, next) {
+    try {
+      const products = await ProductService.fetchProductsByTypeAndStatusAdm(
+        req.params.id
+      );
+      return res.json(products);
+    } catch (e) {
+      next(ApiError.badRequest(e.message));
+    }
+  }
+
   async update(req, res, next) {
     try {
       const { id } = req.params;

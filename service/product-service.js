@@ -338,6 +338,15 @@ class ProductService {
     return products;
   }
 
+  async fetchProductsByTypeAndStatusAdm(typeId) {
+    const products = await Product.findAll({
+      where: {
+        type: typeId,
+      },
+    });
+    return products;
+  }
+
   async updateProduct(id, data, img, certificate, presentation) {
     const product = await Product.findOne({ where: { id } });
     if (!product) {
