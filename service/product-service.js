@@ -424,6 +424,9 @@ class ProductService {
         'type',
         [sequelize.fn('COUNT', sequelize.col('id')), 'count'],
       ],
+      where: {
+        status: true,
+      },
       group: ['type'],
     });
   
