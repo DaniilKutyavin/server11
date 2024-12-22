@@ -2,12 +2,13 @@ const Router = require('express');
 const router = new Router();
 const FooterController = require('../controllers/footerController.js');
 const authMiddleware = require('../middleware/auth-middlewares.js');
+const checkRole = require("../middleware/checkRoleMiddleware.js");
 
-router.post('/', FooterController.create);
+router.post('/',checkRole("Admin"), FooterController.create);
 
 router.get('/', FooterController.getAll);
 
-router.put('/', FooterController.update);
+router.put('/',checkRole("Admin"), FooterController.update);
 
 
 module.exports = router;
