@@ -25,7 +25,7 @@ const options = {
 app.use(cors({
     credentials: true,
     origin: (origin, callback) => {
-        const allowedOrigins = ['https://asatag.com:3000'];
+        const allowedOrigins = ['http://asatag.com:3000','https://asatag.com:3000'];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
