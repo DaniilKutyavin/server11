@@ -15,7 +15,7 @@ const app = express()
 app.use(cors({
     credentials: true,
     origin: (origin, callback) => {
-        const allowedOrigins = ['http://asatag.com:3000', 'http://asatag.com:3000'];
+        const allowedOrigins = ['http://asatag.com', 'https://asatag.com'];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
@@ -34,7 +34,7 @@ const start = async () => {
     try{
         await sequelize.authenticate()
         await sequelize.sync()
-        app.listen(PORT, ()=>console.log(`Sever started on port ${PORT}`))
+        app.listen(PORT, '0.0.0.0', () => console.log(`Server started on port ${PORT}`));
     } catch(e){
         console.log(e)
     }
