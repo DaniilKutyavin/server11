@@ -106,7 +106,17 @@ class OrderController {
   
       const totalPrice = orderData.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
       const newOrder = await  orderService.createGuestOrder({ ...orderData, totalPrice });
-  
+      const adminEmail = "asatryan.diways@gmail.com"; 
+      await MailService.sendOrderNotification(adminEmail, {
+          ...newOrder,
+          email: orderData.email, 
+          fio: orderData.fio || 'Гость', 
+          phone: orderData.phone || 'Не указан',
+          city: orderData.city || 'Не указан',
+          comment: orderData.comment || '',
+          paymentMethod: orderData.paymentMethod || 'Не указан',
+          giftId: orderData.giftId || null,
+      });
       res.status(201).json({ message: 'Заказ успешно создан', order: newOrder });
     } catch (err) {
       res.status(500).json({ message: err.message });
