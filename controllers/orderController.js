@@ -60,7 +60,7 @@ class OrderController {
     }
   }
 
-  // Controller method to update order status
+  // Controller method to update order st atus
   async updateOrder(req, res, next) {
     const { id } = req.params; // Get the order ID from the request parameters
     const updateData = req.body; // Get the update data from the request body
