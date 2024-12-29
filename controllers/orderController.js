@@ -1,6 +1,7 @@
 const orderService = require("../service/order-service");
 const basketService = require("../service/basket-service"); // To clear the basket after order
 const ApiError = require("../error/ApiError");
+const MailService = require("../service/mail-service")
 
 class OrderController {
   // Controller method to create an order
@@ -22,6 +23,7 @@ class OrderController {
         giftId,
         paymentMethod
       );
+      await MailService.sendOrderNotification("asatryan.diways@gmail.com", order);
       await basketService.clearBasket(req.user.id); // Clear basket after order creation
       res.status(201).json(order);
     } catch (error) {
@@ -104,7 +106,17 @@ class OrderController {
   
       const totalPrice = orderData.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
       const newOrder = await  orderService.createGuestOrder({ ...orderData, totalPrice });
-  
+      const adminEmail = "asatryan.diways@gmail.com"; 
+      await MailService.sendOrderNotification(adminEmail, {
+          ...newOrder,
+          email: orderData.email, 
+          fio: orderData.fio || 'Гость', 
+          phone: orderData.phone || 'Не указан',
+          city: orderData.city || 'Не указан',
+          comment: orderData.comment || '',
+          paymentMethod: orderData.paymentMethod || 'Не указан',
+          giftId: orderData.giftId || null,
+      });
       res.status(201).json({ message: 'Заказ успешно создан', order: newOrder });
     } catch (err) {
       res.status(500).json({ message: err.message });
