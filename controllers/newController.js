@@ -33,7 +33,14 @@ class NewsController {
     async updatenews(req, res, next) {
         try {
             const { id } = req.params;
-            const updatednews = await NewsService.updatenews(id, req.body);
+    
+            // Получаем данные из запроса
+            const data = req.body;
+            const img = req.files?.img; // Проверяем, есть ли файл
+    
+            // Передаем данные и файл в сервис
+            const updatednews = await NewsService.updatenews(id, data, img);
+    
             return res.json(updatednews);
         } catch (e) {
             next(ApiError.badRequest(e.message));

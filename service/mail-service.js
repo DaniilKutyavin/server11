@@ -29,5 +29,27 @@ class MailService {
                 `
         })
     }
+    async sendOrderNotification(to, order) {
+        const { phone, fio, city, email, comment, giftId, paymentMethod } = order;
+
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to,
+            subject: 'Новый заказ поступил',
+            text: '',
+            html: `
+                <div>
+                    <h1>Новый заказ</h1>
+                    <p><strong>ФИО:</strong> ${fio}</p>
+                    <p><strong>Телефон:</strong> ${phone}</p>
+                    <p><strong>Город:</strong> ${city}</p>
+                    <p><strong>Комментарий:</strong> ${comment}</p>
+                    <p><strong>Email:</strong> ${email}</p>
+                    <p><strong>Метод оплаты:</strong> ${paymentMethod}</p>
+                    <p><strong>ID подарка:</strong> ${giftId || 'Не выбран'}</p>
+                </div>
+            `
+        });
+    }
 }
 module.exports = new MailService()
