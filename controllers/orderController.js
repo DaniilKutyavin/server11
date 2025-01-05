@@ -23,7 +23,7 @@ class OrderController {
         giftId,
         paymentMethod
       );
-      await MailService.sendOrderNotification("asatryan.diways@gmail.com", order);
+      await MailService.sendOrderNotification("daniil.kutyavin.95@mail.ru", order);
       await basketService.clearBasket(req.user.id); // Clear basket after order creation
       res.status(201).json(order);
     } catch (error) {
