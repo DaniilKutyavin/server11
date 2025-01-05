@@ -15,7 +15,7 @@ const app = express()
 app.use(cors({
     credentials: true,
     origin: (origin, callback) => {
-        const allowedOrigins = ['http://asatag.com', 'https://asatag.com', 'https://www.asatag.com'];
+        const allowedOrigins = ['https://asatag.com', 'https://www.asatag.com'];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
