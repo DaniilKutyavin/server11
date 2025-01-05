@@ -9,6 +9,7 @@ const User = sequelize.define("user", {
   role: { type: DataTypes.STRING, allowNull: false, defaultValue: "USER" },
   isActivated: { type: DataTypes.BOOLEAN, defaultValue: false },
   activationLink: { type: DataTypes.STRING },
+  promokod: { type: DataTypes.STRING, allowNull: true },
 });
 
 const Basket = sequelize.define("basket", {

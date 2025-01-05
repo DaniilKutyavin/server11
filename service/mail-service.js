@@ -18,7 +18,7 @@ class MailService {
         await this.transporter.sendMail({
             from:process.env.SMTP_USER,
             to,
-            subject:'Активация аккаунта на'+ process.env.API_URL,
+            subject:'Активация аккаунта на '+ process.env.API_URL,
             text:'',
             html:
             `
@@ -51,5 +51,20 @@ class MailService {
             `
         });
     }
+    async sendPromoCode(to, promoCode) {
+        await this.transporter.sendMail({
+          from: process.env.SMTP_USER,
+          to,
+          subject: 'Ваш промокод',
+          text: '',
+          html: `
+            <div>
+              <h1>Поздравляем с успешной регистрацией!</h1>
+              <p>Ваш персональный промокод: <strong>${promoCode}</strong></p>
+              <p>Используйте его для получения скидки или бонусов.</p>
+            </div>
+          `
+        });
+      }
 }
 module.exports = new MailService()

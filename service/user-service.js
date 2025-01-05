@@ -2,8 +2,10 @@ const ApiError = require("../error/ApiError");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const tokenService = require("./token-service");
+const mailService = require('./mail-service');
 const UserDto = require("../dtos/user-dto");
 const { User, TokenSchema,Basket } = require("../models/models");
+const { v4: uuidv4 } = require("uuid");
 
 class UserService {
   async registration(email, password, name, role) {
@@ -17,14 +19,16 @@ class UserService {
 
     const hashPassword = await bcrypt.hash(password, 5);
     const activationLink = uuid.v4();
+    const promokod = uuidv4();
     const user = await User.create({
       name,
       email,
       role,
       password: hashPassword,
       activationLink,
+      promokod
     });
-
+    await mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${activationLink}`);
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
     await Basket.create({ userId: userDto.id }); 
@@ -46,6 +50,7 @@ class UserService {
 
     user.isActivated = true;
     await user.save();
+    await mailService.sendPromoCode(user.email, user.promokod);
   }
 
   async login(email, password) {
