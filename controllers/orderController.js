@@ -1,6 +1,7 @@
 const orderService = require("../service/order-service");
 const basketService = require("../service/basket-service"); // To clear the basket after order
 const ApiError = require("../error/ApiError");
+const MailService = require("../service/mail-service")
 
 class OrderController {
   // Controller method to create an order
@@ -22,6 +23,7 @@ class OrderController {
         giftId,
         paymentMethod
       );
+      await MailService.sendOrderNotification("asatryan.diways@gmail.com", order);
       await basketService.clearBasket(req.user.id); // Clear basket after order creation
       res.status(201).json(order);
     } catch (error) {
