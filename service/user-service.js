@@ -28,7 +28,7 @@ class UserService {
       activationLink,
       promokod
     });
-   
+    await mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${activationLink}`);
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
     await Basket.create({ userId: userDto.id }); 

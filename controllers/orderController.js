@@ -24,7 +24,7 @@ class OrderController {
         paymentMethod
       );
       await basketService.clearBasket(req.user.id);
-      await MailService.sendOrderNotification("hdfsgrf@mail.ru", order);
+      await MailService.sendOrderNotification("asatryan.diways@gmail.com", order);
       res.status(201).json(order);
     } catch (error) {
       next(error);
@@ -106,7 +106,7 @@ class OrderController {
   
       const totalPrice = orderData.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
       const newOrder = await  orderService.createGuestOrder({ ...orderData, totalPrice });
-      const adminEmail = "hdfsgrf@mail.ru"; 
+      const adminEmail = "asatryan.diways@gmail.com"; 
       await MailService.sendOrderNotification(adminEmail, {
           ...newOrder,
           email: orderData.email, 
