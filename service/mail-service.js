@@ -17,18 +17,31 @@ class MailService {
     }
     async sendActivationMail(to, link) {
         await this.transporter.sendMail({
-            from:process.env.SMTP_USER,
+            from: process.env.SMTP_USER,
             to,
-            subject:'Активация аккаунта на '+ process.env.API_URL,
-            text:'',
-            html:
-            `
-                <div>
-                    <h1>Для активации перейдите по ссылке</h1>
-                    <a href="${link}">${link}</a>
+            subject: 'Активация аккаунта на ' + process.env.API_URL,
+            text: '',
+            html: `
+                <div style="font-family: Arial, sans-serif; color: #000; text-align: center;">
+                    <h1 style="font-size: 24px;">Для активации перейдите по ссылке</h1>
+                    <a href="${link}" style="color: #007bff; text-decoration: none;">${link}</a>
+                    <br/><br/>
+                    <div style="border-top: 1px solid #ccc; margin-top: 30px; padding-top: 20px;">
+                        <p style="margin: 0; font-size: 16px;"><strong>ASATAG | Территория счастливого фермера</strong></p>
+                        <p style="margin: 5px 0;">+7(990)194-28-29</p>
+                        <p style="margin: 5px 0;">
+                            <a href="https://t.me/asatag" style="color: #007bff; text-decoration: none;">https://t.me/asatag</a><br/>
+                            <a href="https://vk.com/asatag" style="color: #007bff; text-decoration: none;">https://vk.com/asatag</a><br/>
+                            <a href="https://asatag.com" style="color: #007bff; text-decoration: none;">https://asatag.com</a>
+                        </p>
+                        <div style="margin: 20px 0;">
+                            <img src="https://asatag.com/api/mail.jpg" alt="ASATAG" style="max-width: 150px;">
+                        </div>
+                        <p style="font-size: 14px; color: #555;">С уважением, команда<br/><strong>Asatrian Trading Group</strong></p>
+                    </div>
                 </div>
-                `
-        })
+            `
+        });
     }
     async sendOrderNotification(to, order) {
         const { phone, fio, city, email, comment, giftId, paymentMethod } = order;

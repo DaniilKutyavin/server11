@@ -50,7 +50,6 @@ class UserService {
 
     user.isActivated = true;
     await user.save();
-    await mailService.sendPromoCode(user.email, user.promokod);
   }
 
   async login(email, password) {
