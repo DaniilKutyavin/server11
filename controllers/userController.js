@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { User, Event } = require("../models/models.js");
 const userService = require("../service/user-service.js");
 const { validationResult } = require("express-validator");
+const fs = require("fs"); 
 
 class UserController {
   async registration(req, res, next) {
@@ -103,6 +104,29 @@ class UserController {
       return res.json(updatedUser);
     } catch (e) {
       next(e);
+    }
+  }
+  async exportUsersToCSV(req, res, next) {
+    try {
+      const filePath = await userService.exportUsersToCSV(); // Вызываем метод из UserService
+
+      // Отправляем файл пользователю
+      res.download(filePath, "users.csv", (err) => {
+        if (err) {
+          next(ApiError.internal("Ошибка при скачивании файла"));
+        } else {
+          // Удаляем файл после успешной отправки
+          fs.unlink(filePath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error("Ошибка при удалении файла:", unlinkErr);
+            } else {
+              console.log(`Файл ${filePath} успешно удален.`);
+            }
+          });
+        }
+      });
+    } catch (e) {
+      next(e); // В случае ошибки переходим к обработчику ошибок
     }
   }
 }

@@ -25,10 +25,10 @@ class OrderService {
     });
 
     return !!recentGift;
-  }
+  } 
 
   // Method to create an order
-  async createOrder(userId, phone, fio, city, email, comment, giftId, paymentMethod) {
+  async createOrder(userId, phone, fio, city, email, comment, giftId, paymentMethod, promokod) {
     // Check if the selected gift was taken in the last 24 hours
     if (giftId) {
       const hasRecentGift = await this.hasRecentGift(userId, giftId);
@@ -45,8 +45,25 @@ class OrderService {
     if (!basket || !basket.basket_products || basket.basket_products.length === 0) {
       throw ApiError.badRequest("Корзина пуста");
     }
+    let discount = 0;
 
-    const order = await Order.create({ userId, phone, fio, city, email, comment, giftId, paymentMethod });
+    if (promokod) {
+    const user = await User.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw ApiError.badRequest("Пользователь не найден.");
+    }
+
+    if (user.promokod !== promokod) {
+      throw ApiError.badRequest("Промокод неверный.");
+    }
+
+    // Apply discount and set promo code to null
+    discount = 500; // Сумма скидки
+    user.promokod = null;
+    await user.save();
+  }
+    const order = await Order.create({ userId, phone, fio, city, email, comment, giftId, paymentMethod,discount, promokod: promokod || null, });
 
     for (const basketProduct of basket.basket_products) {
       await OrderProduct.create({

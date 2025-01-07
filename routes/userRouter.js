@@ -3,6 +3,7 @@ const router = new Router();
 const userController = require("../controllers/userController.js");
 const { body } = require("express-validator");
 const authMiddleware = require("../middleware/auth-middlewares.js");
+const checkRole = require("../middleware/checkRoleMiddleware.js");
 
 router.post(
   "/registration",
@@ -23,5 +24,6 @@ router.put(
   body("confirmPassword").optional().isLength({ min: 8, max: 20 }),
   userController.updateUser
 );
+router.get("/export",checkRole("Admin"), authMiddleware, userController.exportUsersToCSV)
 
 module.exports = router;

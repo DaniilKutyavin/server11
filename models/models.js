@@ -107,6 +107,8 @@ const Order = sequelize.define("order", {
   comment: { type: DataTypes.TEXT, allowNull: false },
   giftId: { type: DataTypes.INTEGER, allowNull: true },
   paymentMethod: { type: DataTypes.STRING, allowNull: false },
+  promokod: { type: DataTypes.STRING, allowNull: true },
+  discount : { type: DataTypes.INTEGER, allowNull: false},
   status: { type: DataTypes.STRING, defaultValue: "Ожидает подтверждения" },
 });
 

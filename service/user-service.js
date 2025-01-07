@@ -5,9 +5,19 @@ const tokenService = require("./token-service");
 const mailService = require('./mail-service');
 const UserDto = require("../dtos/user-dto");
 const { User, TokenSchema,Basket } = require("../models/models");
-const { v4: uuidv4 } = require("uuid");
-
+const { parse } = require('json2csv');
+const path = require('path');  // Make sure to import path
+const fs = require('fs')
+const generatePromoCode = (length = 8) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let promoCode = '';
+  for (let i = 0; i < length; i++) {
+    promoCode += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return promoCode;
+};
 class UserService {
+  
   async registration(email, password, name, role) {
     if (!email || !password) {
       throw ApiError.badRequest("Некорректный email или password");
@@ -19,7 +29,7 @@ class UserService {
 
     const hashPassword = await bcrypt.hash(password, 5);
     const activationLink = uuid.v4();
-    const promokod = uuidv4();
+    const promokod = generatePromoCode();
     const user = await User.create({
       name,
       email,
@@ -28,7 +38,7 @@ class UserService {
       activationLink,
       promokod
     });
-    await mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${activationLink}`);
+    await mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${activationLink}`, promokod);
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
     await Basket.create({ userId: userDto.id }); 
@@ -137,6 +147,33 @@ class UserService {
     const userDto = new UserDto(user);
     return userDto;
   }
+
+  async exportUsersToCSV() {
+    // Получаем всех пользователей
+    const users = await User.findAll();
+
+    // Формируем данные для CSV
+    const userData = users.map(user => {
+      const nameParts = user.name.split(' ');  // Разделяем имя и фамилию по пробелу
+
+      // Преобразуем данные в нужный формат
+      return {
+        first_name: nameParts[0] || '', // Имя
+        last_name: nameParts[1] || '',  // Фамилия (если есть)
+        display_name: user.role || 'unknown',  // Роль пользователя как группа
+        email: user.email                // Электронная почта
+      };
+    });
+
+    // Преобразуем данные в CSV формат
+    const csv = parse(userData);
+
+    // Сохраняем CSV в файл
+    const filePath = path.join(__dirname, '../static/users.csv');
+    fs.writeFileSync(filePath, csv);
+
+    return filePath;  // Возвращаем путь к файлу
+}
 }
 
 module.exports = new UserService();

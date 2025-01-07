@@ -15,7 +15,7 @@ class MailService {
         })
 
     }
-    async sendActivationMail(to, link) {
+    async sendActivationMail(to, link, promokod) {
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,
             to,
@@ -26,6 +26,8 @@ class MailService {
                     <h1 style="font-size: 24px;">Для активации перейдите по ссылке</h1>
                     <a href="${link}" style="color: #007bff; text-decoration: none;">${link}</a>
                     <br/><br/>
+                    <p style="font-size: 16px;">Ваш промокод: <strong style="font-size: 20px; color: #ff5733;">${promokod}</strong></p>
+                    <p>Скопируйте промокод и используйте его при оформлении заказа!</p>
                     <div style="border-top: 1px solid #ccc; margin-top: 30px; padding-top: 20px;">
                         <p style="margin: 0; font-size: 16px;"><strong>ASATAG | Территория счастливого фермера</strong></p>
                         <p style="margin: 5px 0;">+7(990)194-28-29</p>
@@ -35,7 +37,7 @@ class MailService {
                             <a href="https://asatag.com" style="color: #007bff; text-decoration: none;">https://asatag.com</a>
                         </p>
                         <div style="margin: 20px 0;">
-                            <img src="https://asatag.com/api/mail.jpg" alt="ASATAG" style="max-width: 150px;">
+                            <img src="https://avatars.mds.yandex.net/i?id=fe015f985715feeaadafe43547ece30b0b2c320f-4550775-images-thumbs&n=13" alt="ASATAG" style="max-width: 200px;">
                         </div>
                         <p style="font-size: 14px; color: #555;">С уважением, команда<br/><strong>Asatrian Trading Group</strong></p>
                     </div>

@@ -7,7 +7,7 @@ class OrderController {
   // Controller method to create an order
   async createOrder(req, res, next) {
     try {
-      const { phone, fio, city, email, comment, giftId, paymentMethod } = req.body;
+      const { phone, fio, city, email, comment, giftId, paymentMethod, promokod} = req.body;
 
       if (!req.user || !req.user.id) {
         throw ApiError.badRequest("User not authenticated");
@@ -21,11 +21,12 @@ class OrderController {
         email,
         comment,
         giftId,
-        paymentMethod
-      );
-      await basketService.clearBasket(req.user.id);
-      await MailService.sendOrderNotification("asatryan.diways@gmail.com", order);
+        paymentMethod,
+        promokod
+      ); 
+      await basketService.clearBasket(req.user.id); // Clear basket after order creation
       res.status(201).json(order);
+      await MailService.sendOrderNotification("asatryan.diways@gmail.com", order);
     } catch (error) {
       next(error);
     }
@@ -106,6 +107,7 @@ class OrderController {
   
       const totalPrice = orderData.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
       const newOrder = await  orderService.createGuestOrder({ ...orderData, totalPrice });
+      res.status(201).json({ message: 'Заказ успешно создан', order: newOrder });
       const adminEmail = "asatryan.diways@gmail.com"; 
       await MailService.sendOrderNotification(adminEmail, {
           ...newOrder,
@@ -117,7 +119,6 @@ class OrderController {
           paymentMethod: orderData.paymentMethod || 'Не указан',
           giftId: orderData.giftId || null,
       });
-      res.status(201).json({ message: 'Заказ успешно создан', order: newOrder });
     } catch (err) {
       res.status(500).json({ message: err.message });
     }
