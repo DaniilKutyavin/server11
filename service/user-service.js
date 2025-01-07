@@ -38,7 +38,15 @@ class UserService {
       activationLink,
       promokod
     });
-    await mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${activationLink}`, promokod);
+
+    setImmediate(async () => {
+      try {
+          await mailService.sendActivationMail(email, `${process.env.API_URL}/api/user/activate/${activationLink}`, promokod);
+      } catch (error) {
+          console.error("Ошибка отправки письма активации:", error);
+      }
+  });
+  
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
     await Basket.create({ userId: userDto.id }); 
@@ -153,17 +161,10 @@ class UserService {
     const users = await User.findAll();
 
     // Формируем данные для CSV
-    const userData = users.map(user => {
-      const nameParts = user.name.split(' ');  // Разделяем имя и фамилию по пробелу
-
-      // Преобразуем данные в нужный формат
-      return {
-        first_name: nameParts[0] || '', // Имя
-        last_name: nameParts[1] || '',  // Фамилия (если есть)
-        display_name: user.role || 'unknown',  // Роль пользователя как группа
-        email: user.email                // Электронная почта
-      };
-    });
+    const userData = users.map(user => ({
+        name: user.name || '',       // Полное имя
+        email: user.email || ''      // Электронная почта
+    }));
 
     // Преобразуем данные в CSV формат
     const csv = parse(userData);
