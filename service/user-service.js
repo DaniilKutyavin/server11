@@ -169,11 +169,13 @@ class UserService {
     // Преобразуем данные в CSV формат
     const csv = parse(userData);
 
+    // Добавляем BOM для поддержки кириллицы
+    const csvWithBom = '\uFEFF' + csv;
+
     // Сохраняем CSV в файл
     const filePath = path.join(__dirname, '../static/users.csv');
-    fs.writeFileSync(filePath, csv);
-
-    return filePath;  // Возвращаем путь к файлу
+    fs.writeFileSync(filePath, csvWithBom, { encoding: 'utf8' });
+    return filePath; // Возвращаем путь к файлу
 }
 }
 
