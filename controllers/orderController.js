@@ -26,7 +26,7 @@ class OrderController {
       ); 
       await basketService.clearBasket(req.user.id); // Clear basket after order creation
       res.status(201).json(order);
-      await MailService.sendOrderNotification("asatryan.diways@gmail.com", order);
+      await MailService.sendOrderNotification("danya.kutyavin00@mail.ru", order);
     } catch (error) {
       next(error);
     }
@@ -108,7 +108,7 @@ class OrderController {
       const totalPrice = orderData.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
       const newOrder = await  orderService.createGuestOrder({ ...orderData, totalPrice });
       res.status(201).json({ message: 'Заказ успешно создан', order: newOrder });
-      const adminEmail = "asatryan.diways@gmail.com"; 
+      const adminEmail = "danya.kutyavin00@mail.ru"; 
       await MailService.sendOrderNotification(adminEmail, {
           ...newOrder,
           email: orderData.email, 
