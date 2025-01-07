@@ -37,7 +37,7 @@ class MailService {
                             <a href="https://asatag.com" style="color: #007bff; text-decoration: none;">https://asatag.com</a>
                         </p>
                         <div style="margin: 20px 0;">
-                            <img src="https://avatars.mds.yandex.net/i?id=fe015f985715feeaadafe43547ece30b0b2c320f-4550775-images-thumbs&n=13" alt="ASATAG" style="max-width: 200px;">
+                            <img src="https://asatag.com/api/mail.jpg" alt="ASATAG" style="max-width: 150px;">
                         </div>
                         <p style="font-size: 14px; color: #555;">С уважением, команда<br/><strong>Asatrian Trading Group</strong></p>
                     </div>
