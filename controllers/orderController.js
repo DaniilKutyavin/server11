@@ -28,7 +28,7 @@ class OrderController {
       res.status(201).json(order);
       setImmediate(async () => {
         try {
-          await MailService.sendOrderNotification("asatryan.diways@gmail.com", order);
+          await MailService.sendOrderNotification("asatag@asatag.com", order);
         } catch (error) {
           console.error("Ошибка отправки письма:", error.message);
         }
@@ -116,7 +116,7 @@ class OrderController {
       res.status(201).json({ message: 'Заказ успешно создан', order: newOrder });
       setImmediate(async () => {
         try {
-          const adminEmail = "asatryan.diways@gmail.com";
+          const adminEmail = "asatag@asatag.com";
   
           await MailService.sendOrderNotification(adminEmail, {
             ...newOrder,
