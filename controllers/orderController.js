@@ -26,7 +26,13 @@ class OrderController {
       ); 
       await basketService.clearBasket(req.user.id); // Clear basket after order creation
       res.status(201).json(order);
-      await MailService.sendOrderNotification("asatryan.diways@gmail.com", order);
+      setImmediate(async () => {
+        try {
+          await MailService.sendOrderNotification("asatryan.diways@gmail.com", order);
+        } catch (error) {
+          console.error("Ошибка отправки письма:", error.message);
+        }
+      });
     } catch (error) {
       next(error);
     }
@@ -108,16 +114,23 @@ class OrderController {
       const totalPrice = orderData.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
       const newOrder = await  orderService.createGuestOrder({ ...orderData, totalPrice });
       res.status(201).json({ message: 'Заказ успешно создан', order: newOrder });
-      const adminEmail = "asatryan.diways@gmail.com"; 
-      await MailService.sendOrderNotification(adminEmail, {
-          ...newOrder,
-          email: orderData.email, 
-          fio: orderData.fio || 'Гость', 
-          phone: orderData.phone || 'Не указан',
-          city: orderData.city || 'Не указан',
-          comment: orderData.comment || '',
-          paymentMethod: orderData.paymentMethod || 'Не указан',
-          giftId: orderData.giftId || null,
+      setImmediate(async () => {
+        try {
+          const adminEmail = "asatryan.diways@gmail.com";
+  
+          await MailService.sendOrderNotification(adminEmail, {
+            ...newOrder,
+            email: orderData.email,
+            fio: orderData.fio || "Гость",
+            phone: orderData.phone || "Не указан",
+            city: orderData.city || "Не указан",
+            comment: orderData.comment || "",
+            paymentMethod: orderData.paymentMethod || "Не указан",
+            giftId: orderData.giftId || null,
+          });
+        } catch (error) {
+          console.error("Ошибка отправки письма админу:", error.message);
+        }
       });
     } catch (err) {
       res.status(500).json({ message: err.message });
