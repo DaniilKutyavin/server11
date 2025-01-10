@@ -10,6 +10,8 @@ const User = sequelize.define("user", {
   isActivated: { type: DataTypes.BOOLEAN, defaultValue: false },
   activationLink: { type: DataTypes.STRING },
   promokod: { type: DataTypes.STRING, allowNull: true },
+  resetToken: { type: DataTypes.TEXT, allowNull: true },
+  resetTokenExpiration: {  type: DataTypes.DATE, allowNull: true },
 });
 
 const Basket = sequelize.define("basket", {
