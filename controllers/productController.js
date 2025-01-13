@@ -1,5 +1,6 @@
 const ProductService = require("../service/product-service.js");
 const ApiError = require("../error/ApiError.js");
+const fs = require('fs');
 
 class ProductController {
   async createSZR(req, res, next) {
@@ -128,6 +129,30 @@ class ProductController {
       return res.json(counts);
     } catch (error) {
       next(error);
+    }
+  }
+  async  generateYmlFeed(req, res, next) {
+    try {
+      const filePath = await ProductService.generateYmlFeed();
+      
+      console.log(`File created at: ${filePath}`);  
+  
+      res.download(filePath, "feed.yml", (err) => {
+        if (err) {
+          return next(ApiError.badRequest(err.message));
+        }
+  
+
+        fs.unlink(filePath, (unlinkErr) => {
+          if (unlinkErr) {
+            console.error("Error deleting the file:", unlinkErr);
+          } else {
+            console.log("File successfully deleted:", filePath);
+          }
+        });
+      });
+    } catch (error) {
+      next(ApiError.badRequest(error.message));
     }
   }
 }

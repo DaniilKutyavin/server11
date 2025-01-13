@@ -8,6 +8,7 @@ const { body } = require("express-validator");
 router.post("/szr",checkRole("Admin"), ProductController.createSZR);
 router.post("/udo", checkRole("Admin"),ProductController.createUDO);
 router.post("/pos",checkRole("Admin"), ProductController.createPOS);
+router.get("/feed",checkRole("Admin", "Employee"), ProductController.generateYmlFeed);
 router.get("/:id", ProductController.getOne);
 router.delete("/:id", checkRole("Admin"), ProductController.del);
 router.get("/type/:id", ProductController.getAllByType);

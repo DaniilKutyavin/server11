@@ -16,6 +16,7 @@ const path = require("path");
 const { Op } = require("sequelize");
 const ApiError = require("../error/ApiError.js");
 const sequelize = require('../db');
+const fs = require("fs");
 
 class ProductService {
   async createProductSZR(data, img, certificate, presentation) {
@@ -438,6 +439,50 @@ class ProductService {
       count: parseInt(item.dataValues.count, 10),
       productBuyCount: productBuyCounts || 0,  // Use the count of rows from ProductBuy table
     }));
+  }
+
+  async generateYmlFeed() {
+    const products = await Product.findAll({
+      include: [
+        { model: Advantage, as: "adva" },
+        { model: Desc, as: "desc" },
+      ],
+    });
+  
+    const ymlFeed = `<?xml version="1.0" encoding="UTF-8"?>
+  <yml_catalog date="${new Date().toISOString()}">
+    <shop>
+      <name>Asatag</name>
+      <company>Asatag</company>
+      <url>https://asatag.com</url>
+      <currencies>
+        <currency id="RUB" rate="1"/>
+      </currencies>
+      <categories>
+      </categories>
+      <offers>
+        ${products
+          .map((product) => {
+            return `
+          <offer id="${product.id}" available="true">
+            <name>${product.name}</name>
+            <price>${product.price}</price>
+            <currencyId>RUB</currencyId>
+            <categoryId>${product.category || 1}</categoryId>
+            <picture>https://asatag.com/api/${product.img}</picture>
+            <description>${product.description || ""}</description>
+            <description_low>${product.description_low || ""}</description_low>
+            <manufacturer>${product.manufacturer || "Не указан"}</manufacturer>
+          </offer>
+        `;
+          })
+          .join("\n")}
+      </offers>
+    </shop>
+  </yml_catalog>`;
+  const filePath = path.join(__dirname, '../static/feed.yml');
+    fs.writeFileSync(filePath, ymlFeed);
+    return filePath;
   }
 }
 
