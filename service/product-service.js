@@ -442,6 +442,34 @@ class ProductService {
   }
 
   async generateYmlFeed() {
+    const categoryMapping = {
+      Гербициды: 1,
+      Инсектициды: 2,
+      Фунгициды: 3,
+      Протравители: 4,
+      Адьюванты: 5,
+      "Регуляторы роста": 6,
+      Десиканты: 7,
+      "Фумиганты и родентициды": 8,
+  
+      "Азотные N": 9,
+      "Фосфорные P": 10,
+      "Калийные K": 11,
+      "Комплексные N+P+K": 12,
+      Водорастворимые: 13,
+      Жидкие: 14,
+  
+      Подсолнечник: 15,
+      Рапс: 16,
+      Кукуруза: 17,
+      Пшеница: 18,
+      Ячмень: 19,
+      Нут: 20,
+      Горох: 21,
+      Горчица: 22,
+      Соя: 23,
+    };
+  
     const products = await Product.findAll({
       include: [
         { model: Advantage, as: "adva" },
@@ -450,37 +478,65 @@ class ProductService {
     });
   
     const ymlFeed = `<?xml version="1.0" encoding="UTF-8"?>
-  <yml_catalog date="${new Date().toISOString()}">
-    <shop>
-      <name>Asatag</name>
-      <company>Asatag</company>
-      <url>https://asatag.com</url>
-      <currencies>
-        <currency id="RUB" rate="1"/>
-      </currencies>
-      <categories>
-      </categories>
-      <offers>
-        ${products
-          .map((product) => {
-            return `
-          <offer id="${product.id}" available="true">
-            <name>${product.name}</name>
-            <price>${product.price}</price>
-            <currencyId>RUB</currencyId>
-            <categoryId>${product.category || 1}</categoryId>
-            <picture>https://asatag.com/api/${product.img}</picture>
-            <description>${product.description || ""}</description>
-            <description_low>${product.description_low || ""}</description_low>
-            <manufacturer>${product.manufacturer || "Не указан"}</manufacturer>
-          </offer>
-        `;
-          })
-          .join("\n")}
-      </offers>
-    </shop>
-  </yml_catalog>`;
-  const filePath = path.join(__dirname, '../static/feed.yml');
+    <yml_catalog date="${new Date().toISOString()}">
+      <shop>
+        <name>Asatag</name>
+        <company>Asatag LLC</company>
+        <url>https://asatag.com</url>
+        <currencies>
+          <currency id="RUB" rate="1"/>
+        </currencies>
+        <categories>
+          ${Object.entries(categoryMapping)
+            .map(
+              ([name, id]) => `
+          <category id="${id}">${name}</category>`
+            )
+            .join("\n")}
+        </categories>
+        <offers>
+          ${products
+            .map((product) => {
+              // Собираем массив всех категорий из product.category и fertilizers
+              const allCategories = [];
+  
+              if (product.category) {
+                allCategories.push(...product.category.split(";").map((c) => c.trim()));
+              }
+  
+              if (product.fertilizers) {
+                allCategories.push(...product.fertilizers.split(";").map((c) => c.trim()));
+              }
+  
+              // Убираем дубли и создаем offer для каждой категории
+              return [...new Set(allCategories)]
+                .map((categoryName) => {
+                  const categoryId = categoryMapping[categoryName] || 1; // Определяем categoryId или ставим 1
+  
+                  return `
+            <offer id="${product.id}-${categoryId}" available="true">
+              <name>${product.name}</name>
+              <vendor>${product.manufacturer || "Не указан"}</vendor>
+              <url>https://asatag.com/product/${product.id}</url>
+              <price>${product.price}</price>
+              <currencyId>RUB</currencyId>
+              <categoryId>${categoryId}</categoryId>
+              <picture>https://asatag.com/api/${product.img}</picture>
+              <description><![CDATA[
+            <p>${product.description || ""}</p>
+          ]]></description>
+              <sales_notes>Необходима предоплата.</sales_notes> 
+              <weight>${product.weight || "0.0"}</weight>
+            </offer>`;
+                })
+                .join("\n");
+            })
+            .join("\n")}
+        </offers>
+      </shop>
+    </yml_catalog>`;
+  
+    const filePath = path.join(__dirname, "../static/feed.yml");
     fs.writeFileSync(filePath, ymlFeed);
     return filePath;
   }
