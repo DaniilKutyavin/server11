@@ -471,6 +471,7 @@ class ProductService {
     };
   
     const products = await Product.findAll({
+      where: { status: true },
       include: [
         { model: Advantage, as: "adva" },
         { model: Desc, as: "desc" },
