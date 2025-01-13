@@ -131,7 +131,7 @@ class ProductController {
       next(error);
     }
   }
-  async  generateYmlFeed(req, res, next) {
+  async generateYmlFeed(req, res, next) {
     try {
       const filePath = await ProductService.generateYmlFeed();
       
@@ -141,15 +141,7 @@ class ProductController {
         if (err) {
           return next(ApiError.badRequest(err.message));
         }
-  
-
-        fs.unlink(filePath, (unlinkErr) => {
-          if (unlinkErr) {
-            console.error("Error deleting the file:", unlinkErr);
-          } else {
-            console.log("File successfully deleted:", filePath);
-          }
-        });
+        console.log("File successfully served:", filePath);
       });
     } catch (error) {
       next(ApiError.badRequest(error.message));
