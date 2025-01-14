@@ -479,6 +479,7 @@ class ProductService {
     });
   
     const ymlFeed = `
+    <?xml version="1.0" encoding="UTF-8"?>
     <yml_catalog date="${new Date().toISOString()}">
       <shop>
         <name>Asatag</name>
