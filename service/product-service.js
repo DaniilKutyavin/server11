@@ -478,12 +478,14 @@ class ProductService {
       ],
     });
   
-    const ymlFeed = `<?xml version="1.0" encoding="UTF-8"?>
+    const ymlFeed = `
     <yml_catalog date="${new Date().toISOString()}">
       <shop>
         <name>Asatag</name>
         <company>Asatag LLC</company>
         <url>https://asatag.com</url>
+        <platform>Custom Platform</platform>
+        <version>1.0</version>
         <currencies>
           <currency id="RUB" rate="1"/>
         </currencies>
@@ -523,9 +525,7 @@ class ProductService {
               <currencyId>RUB</currencyId>
               <categoryId>${categoryId}</categoryId>
               <picture>https://asatag.com/api/${product.img}</picture>
-              <description><![CDATA[
-            <p>${product.description || ""}</p>
-          ]]></description>
+              <description><![CDATA[${product.description || "Описание отсутствует"}]]></description>
               <sales_notes>Необходима предоплата.</sales_notes> 
               <weight>${product.weight || "0.0"}</weight>
             </offer>`;
