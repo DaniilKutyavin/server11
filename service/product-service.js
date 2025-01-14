@@ -536,7 +536,7 @@ class ProductService {
       </shop>
     </yml_catalog>`;
   
-    const filePath = path.join(__dirname, "../static/feed.yml");
+    const filePath = path.join(__dirname, "../static/feed.xml");
     fs.writeFileSync(filePath, ymlFeed);
     return filePath;
   }

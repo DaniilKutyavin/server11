@@ -136,8 +136,9 @@ class ProductController {
       const filePath = await ProductService.generateYmlFeed();
       
       console.log(`File created at: ${filePath}`);  
-  
-      res.download(filePath, "feed.yml", (err) => {
+      
+      res.setHeader("Content-Type", "application/xml");
+      res.download(filePath, "feed.xml", (err) => {
         if (err) {
           return next(ApiError.badRequest(err.message));
         }
