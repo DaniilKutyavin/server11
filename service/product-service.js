@@ -479,7 +479,7 @@ class ProductService {
     });
   
     const ymlFeed = `<?xml version="1.0" encoding="UTF-8"?>
-    <yml_catalog date="${new Date().toISOString()}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="yml_catalog.xsd">
+    <yml_catalog date="${new Date().toISOString()}">
       <shop>
         <name>Asatag</name>
         <company>Asatag LLC</company>
