@@ -527,7 +527,6 @@ class ProductService {
               <picture>https://asatag.com/api/${product.img}</picture>
               <description><![CDATA[${product.description || "Описание отсутствует"}]]></description>
               <sales_notes>Необходима предоплата.</sales_notes> 
-              <weight>${product.weight || "0.0"}</weight>
             </offer>`;
                 })
                 .join("\n");
