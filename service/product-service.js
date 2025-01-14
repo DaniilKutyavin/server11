@@ -517,7 +517,7 @@ class ProductService {
                   const categoryId = categoryMapping[categoryName] || 1; // Определяем categoryId или ставим 1
   
                   return `
-            <offer id="${product.id}-${categoryId}" available="true">
+            <offer id="${product.id}t${categoryId}" available="true">
               <name>${product.name}</name>
               <vendor>${product.manufacturer || "Не указан"}</vendor>
               <url>https://asatag.com/product/${product.id}</url>
