@@ -184,6 +184,13 @@ const ProductBuyInfo = sequelize.define("product_buy_info", {
   name: { type: DataTypes.TEXT,  allowNull: false },
 });
 
+const Feedback = sequelize.define("feedback", {
+  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+  name: { type: DataTypes.STRING, allowNull: false },
+  telephone: { type: DataTypes.STRING, allowNull: false },
+});
+
+
 const Gift = sequelize.define("gift", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   description: { type: DataTypes.TEXT, allowNull: false },
@@ -331,6 +338,7 @@ ProductBuy.hasMany(ProductBuyInfo, { as: "info" });
 ProductBuyInfo.belongsTo(ProductBuy);
 
 module.exports = {
+  Feedback,
   OrderGuest,
   Form_two,
   Infocart,

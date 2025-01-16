@@ -15,6 +15,7 @@ const imgRouter = require("./imgRouter");
 const formoneRouter = require("./formoneRouter");
 const formtwoRouter = require("./formtwoRouter");
 const cartinfoRouter = require("./cartinfoRouter");
+const feedbackRouter = require("./feedbackRouter");
 
 router.use("/user", userRouter);
 router.use("/product", productRouter);
@@ -31,5 +32,6 @@ router.use("/img", imgRouter);
 router.use("/formone", formoneRouter);
 router.use("/formtwo", formtwoRouter);
 router.use("/cartinfo", cartinfoRouter);
+router.use("/feedback", feedbackRouter);
 
 module.exports = router;
