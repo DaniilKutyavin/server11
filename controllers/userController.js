@@ -129,5 +129,24 @@ class UserController {
       next(e); // В случае ошибки переходим к обработчику ошибок
     }
   }
+  async resetPassword(req, res, next) {
+    try {
+      const { email } = req.body;
+      const response = await userService.resetPassword(email);
+      return res.json(response);
+    } catch (e) {
+      next(e);
+    }
+  }
+  
+  async changePassword(req, res, next) {
+    try {
+      const { resetToken, newPassword } = req.body;
+      const response = await userService.changePassword(resetToken, newPassword);
+      return res.json(response);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 module.exports = new UserController();

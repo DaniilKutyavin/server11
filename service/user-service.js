@@ -8,6 +8,7 @@ const { User, TokenSchema,Basket } = require("../models/models");
 const { parse } = require('json2csv');
 const path = require('path');  // Make sure to import path
 const fs = require('fs')
+const jwt = require('jsonwebtoken')
 const generatePromoCode = (length = 8) => {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let promoCode = '';
@@ -176,6 +177,52 @@ class UserService {
     const filePath = path.join(__dirname, '../static/users.csv');
     fs.writeFileSync(filePath, csvWithBom, { encoding: 'utf8' });
     return filePath; // Возвращаем путь к файлу
+}
+
+async resetPassword(email) {
+  const user = await User.findOne({ where: { email } });
+  if (!user) {
+    throw ApiError.badRequest("Пользователь с таким email не найден");
+  }
+
+  // Генерация токена
+  const payload = { id: user.id, email: user.email };
+  const resetToken = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '15m' });
+
+  // Формирование ссылки
+  const resetLink = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
+
+  // Отправка письма
+  await mailService.sendResetPasswordMail(email, resetLink);
+
+  return { message: "Ссылка для сброса пароля отправлена на почту." };
+}
+
+async changePassword(resetToken, newPassword) {
+  try {
+    // Проверка токена
+    const userData = jwt.verify(resetToken, process.env.SECRET_KEY);
+    if (!userData) {
+      throw ApiError.badRequest("Недействительный или истёкший токен");
+    }
+
+    // Поиск пользователя по ID из токена
+    const user = await User.findByPk(userData.id);
+    if (!user) {
+      throw ApiError.badRequest("Пользователь не найден");
+    }
+
+    // Хэширование нового пароля
+    const hashedPassword = await bcrypt.hash(newPassword, 5);
+    user.password = hashedPassword;
+
+    // Сохранение изменений
+    await user.save();
+
+    return { message: "Пароль успешно обновлён." };
+  } catch (error) {
+    throw ApiError.badRequest("Ошибка при изменении пароля: " + error.message);
+  }
 }
 }
 

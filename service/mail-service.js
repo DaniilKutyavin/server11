@@ -82,5 +82,32 @@ class MailService {
           `
         });
       }
+      async sendResetPasswordMail(to, resetLink) {
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to,
+            subject: 'Сброс пароля для аккаунта на ' + process.env.API_URL,
+            text: '',
+            html: `
+            <div style="font-family: Arial, sans-serif; color: #000; text-align: center;">
+                <h1 style="font-size: 24px;">Для сброса пароля перейдите по ссылке ниже:</h1>
+                <a href="${resetLink}" style="color: #007bff; text-decoration: none;">${resetLink}</a>
+                <div style="border-top: 1px solid #ccc; margin-top: 30px; padding-top: 20px;">
+                    <p style="margin: 0; font-size: 16px;"><strong>ASATAG | Территория счастливого фермера</strong></p>
+                    <p style="margin: 5px 0;">+7(990)194-28-29</p>
+                    <p style="margin: 5px 0;">
+                        <a href="https://t.me/asatag" style="color: #007bff; text-decoration: none;">https://t.me/asatag</a><br/>
+                        <a href="https://vk.com/asatag" style="color: #007bff; text-decoration: none;">https://vk.com/asatag</a><br/>
+                        <a href="https://asatag.com" style="color: #007bff; text-decoration: none;">https://asatag.com</a>
+                    </p>
+                    <div style="margin: 20px 0;">
+                        <img src="https://avatars.mds.yandex.net/i?id=fe015f985715feeaadafe43547ece30b0b2c320f-4550775-images-thumbs&n=13" alt="ASATAG" style="max-width: 200px;">
+                    </div>
+                    <p style="font-size: 14px; color: #555;">С уважением, команда<br/><strong>Asatrian Trading Group</strong></p>
+                </div>
+            </div>
+        `
+        });
+    }
 }
 module.exports = new MailService()

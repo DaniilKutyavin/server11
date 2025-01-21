@@ -25,5 +25,7 @@ router.put(
   userController.updateUser
 );
 router.get("/export",checkRole("Admin"), authMiddleware, userController.exportUsersToCSV)
+router.post("/reset-password", userController.resetPassword);
+router.post("/change-password", body("password").isLength({ min: 8, max: 20 }).withMessage("Пароль должен быть от 8 до 20 символов."), userController.changePassword);
 
 module.exports = router;
